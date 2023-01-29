@@ -1,3 +1,8 @@
+
+> forked from https://github.com/huangmb/jenkins-wechat-notifier
+> 原插件作者很久未维护了，使用中遇到中文乱码问题，这里处理了一下
+
+
 # jenkins-wechat-notifier
 Jenkins微信通知插件
 
