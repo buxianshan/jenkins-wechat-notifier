@@ -18,13 +18,15 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -513,7 +515,7 @@ public class WeChatAPI {
             connection.setReadTimeout(10 * 1000);
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
-                return IOUtils.toString(inputStream);
+                return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "error in req " + connection.getURL(), e);
@@ -541,8 +543,8 @@ public class WeChatAPI {
             connection.setDoOutput(true);
             connection.setUseCaches(false);
             OutputStream outputStream = connection.getOutputStream();
-            PrintWriter writer = new PrintWriter(outputStream);
-            writer.print(params);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+            writer.write(params);
             writer.flush();
             writer.close();
             return readAsString(connection);
